@@ -126,13 +126,14 @@ view: f_lineitems {
       field: "d_customer.c_nation"
       value: "UNITED STATES"
     }
-    sql: ${TABLE}.l_totalprice ;;
+    sql: ${l_totalprice} ;;
     # value_format_name: usd
   }
   dimension: Cohort_of_suppliers_according_to_Account_Balance {
     label: "Cohort_of_suppliers_according_to_Account_Balance"
     description: "Cohort_of_suppliers_according_to_Account_Balance"
     style: integer
+    type: tier
     tiers: [1,3001,5001,7001]
         sql: ${l_totalprice};;
     # value_format_name: usd
@@ -155,15 +156,15 @@ view: f_lineitems {
   measure: Total_Gross_Margin_Amount {
     label: "Total_Gross_Margin_Amount"
     description: "Total_Gross_Margin_Amount"
-    type: sum
-    sql: Total_Gross_Revenue - Total_Cost;;
+    type: number
+    sql: ${Total_Gross_Revenue} - ${Total_Cost};;
     # value_format_name: usd
   }
   measure: Goss_Margin_Percentage {
     label: "Goss_Margin_Percentage"
     description: "Goss_Margin_Percentage"
-    type: sum
-    sql: Total_Gross_Margin_Amount/Total_Gross_Revenue;;
+    type: number
+    sql: ${Total_Gross_Margin_Amount} / NULLIF(${Total_Gross_Revenue},0);;
     # value_format_name: usd
   }
   measure: Number_of_Items_Returned {
@@ -188,18 +189,12 @@ view: f_lineitems {
     sql: ${Number_of_Items_Returned} / ${Total_Number_of_Items_Sold} ;;
     # value_format_name: usd
   }
-  measure: Total_Number_of_Customers {
-    label: "Total_Number_of_Customers"
-    description: "Total_Number_of_Customers"
-    type: count_distinct
-    sql: ${d_customer.c_name};;
-    # value_format_name: usd
-  }
+
   measure: Average_Spend_per_Customer {
     label: "Average_Spend_per_Customer"
     description: "Average_Spend_per_Customer"
     type: number
-    sql: ${TotalSalePrice}/${Total_Number_of_Customers};;
+    sql: ${TotalSalePrice}/${d_customer.count};;
     # value_format_name: usd
   }
 
