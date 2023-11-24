@@ -169,7 +169,7 @@ view: f_lineitems {
   }
   measure: Number_of_Items_Returned {
     label: "Number_of_Items_Returned"
-    description: "Number_of_Items_Returned"
+    description: "Number_of_Items_Returned1"
     type: sum
     filters: [l_returnflag: "R"]
     sql: ${l_quantity};;
