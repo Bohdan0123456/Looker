@@ -3,7 +3,14 @@ view: d_dates {
 
   dimension_group: date_val {
     type: time
-    timeframes: [raw, date, week, month, quarter, year]
+    timeframes:
+    [raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+      ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE_VAL" ;;
@@ -41,4 +48,59 @@ view: d_dates {
     type: count
     drill_fields: [month_name]
   }
-}
+
+  dimension: date_value {
+    datatype: date
+    sql: ${TABLE}."DATE_VAL" ;;
+  }
+
+  parameter: my_filter {
+  type: unquoted
+  allowed_value: {
+    value: "Month"
+    label: "Month"
+    }
+    allowed_value:
+    {value: "Quarter"
+      label: "Quarter"
+    }
+    allowed_value:
+    {value: "Year"
+      label: "Year"
+    }
+  }
+
+
+  dimension: Dynamic_date_filter {
+    type: number
+    label_from_parameter: my_filter
+    sql: {% parameter my_filter %} ${date_value} ;;
+  }
+
+
+
+  dimension: Dynamic_chart_name {
+  label_from_parameter: my_filter
+  type: string
+  sql: {% if my_filter._parameter_value=="Month" %} 'Monthly😃'
+  {% elsif my_filter._parameter_value=="Quarter" %} 'Quarterly😉'
+  {% elsif my_filter._parameter_value=="Year" %} 'Yearly😎'
+  {% endif %};;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }

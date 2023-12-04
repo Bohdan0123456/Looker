@@ -197,6 +197,18 @@ view: f_lineitems {
     sql: ${TotalSalePrice}/${d_customer.count};;
     # value_format_name: usd
   }
-
-
+measure: Return_rate {
+type: number
+label: "Returned_items_rate"
+value_format_name: percent_2
+sql: ${Item_Return_Rate} ;;
+html: {% if value >=0.5 %}
+<font color="red">{{rendered_value}}</font>
+{% elsif value >=0.3 and value <0.5 %}
+<font color="yellow">{{rendered_value}}</font>
+{% else %}
+<font color="green">{{rendered_value}}</font>
+{% endif %}
+;;
+}
 }

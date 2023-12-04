@@ -26,9 +26,13 @@ view: d_customer {
     type: string
     sql: ${TABLE}."C_PHONE" ;;
   }
-  dimension: c_region {
+  dimension: c_region{
     type: string
     sql: ${TABLE}."C_REGION" ;;
+    link:{
+      label: "Summary Dashboard Target"
+      url: "/dashboards/291?C+Region={{_filters['d_customer.c_region'] | url_encode }}"
+    }
   }
   measure: count {
     type: count
